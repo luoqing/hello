@@ -13,21 +13,6 @@ class baseController
         $this->mParams = $params;
     }
 
-    // @override
-    public function display()
-    {
-        if (!isset($this->mParams))
-        {
-            die("error parameters!");
-        }
-        else
-        {
-            $action = isset($this->mParams['a']) ? $this->mParams['a'] : 'indexAction';
-            if (!method_exists($this, $action))
-                $action = 'indexAction';
-            call_user_func_array(array($action), array($this->mParams));
-        }
-    }
-
+    
    
 }
