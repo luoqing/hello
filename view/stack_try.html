@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<label>图形标题</label><input id="title" value="请输入图标标题" onFocus="if(value==defaultValue){value='';this.style.color='#000'}" onBlur="if(!value){value=defaultValue;this.style.color='#999'}" style="color:#999999"></input>
+<select id="chartSelect"  class="selector" style="width:100px">
+    <option value="column" selected>柱状图</option>
+    <option value="line">线状图</option>
+    <option value="bar">直方图</option>
+    <option value="area">域图</option>
+    <option value="pie">饼状图(适合一列或一行数据)</option>
+</select>
+<button onclick="create_line_charts()">生成图表</button>
+<div id="container" style="min-width: 310px; max-width: 1000px; height: 500px; margin: 0 auto"></div>
+<script type="text/javascript">
+function create_line_charts(type) {
+    // 下面的title，data， chartype都是可以定制的
+    // data生成json串，可以通过
+    var title = $('#title').val();
+    var data = '{"categories":["事故件","传动件","保养件","改装附件","杂项","液态材料","磨损件","精品","轮胎"],"series":[{"name":"N1","data":[45,100,95,12,71,98,72,54,60]},{"name":"N2","data":[23,0,3,16,19,1,10,14,18]},{"name":"N3","data":[13,0,1,5,2,0,8,8,4]},{"name":"N4","data":[19,0,1,67,8,1,10,23,18]}]}';  // 你可以用c来实现读文件转成json数据 
+
+    var chartType =  $("#chartSelect option:selected").val(); // line , bar, column// 饼状图只适合一组seria数据
+
+     
+     data = eval('('+data+')');
+     $('#container').highcharts({
+        chart: {
+            type: chartType
+        },
+        title: {
+            text: title
+        },
+        xAxis: {
+            categories: data['categories']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: title
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                }
+            }
+        },
+        legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 25,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '%';
+            }
+        },
+        plotOptions: {
+            column: {
+                stacking: 'percent',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                    style: {
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }
+        },
+        series: data["series"]
+    });
+}
+</script>
+
+
+
+
