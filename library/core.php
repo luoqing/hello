@@ -15,8 +15,8 @@ abstract class Core
 
         //获取路由信息
         // $params = self::_parseUrl();
-//        if (!isset($params['c'])) $params['c'] = 'index';
-//        if (!isset($params['a'])) $params['a'] = 'index';
+        if (!isset($params['c'])) $params['c'] = 'index';
+        if (!isset($params['a'])) $params['a'] = 'index';
         
          //调用控制器及其方法
         self::initController($params);
